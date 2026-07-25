@@ -23,7 +23,7 @@ public class Main {
                 state = false;
             }
 
-            commandParser.parseUserInput(input);
+            System.out.println(commandParser.parseUserInput(input));
             memoryStore.printMap();
 
         }

@@ -1,5 +1,7 @@
 package memorystore;
 
+import com.sun.jdi.Value;
+
 import java.util.concurrent.ConcurrentHashMap;
 
 public class MemoryStore {
@@ -11,12 +13,12 @@ public class MemoryStore {
     }
 
     public void put(String key, String value, long time){
-        ValueEntry valueEntry = new ValueEntry(value, System.currentTimeMillis() + (time * 1000));
-        hashMap.put(key, valueEntry);
-    }
-
-    public void put(String key, String value) {
-        ValueEntry valueEntry = new ValueEntry(value);
+        ValueEntry valueEntry;
+        if(time == 0){
+            valueEntry = new ValueEntry(value, 0);
+        } else {
+            valueEntry = new ValueEntry(value, System.currentTimeMillis() + (time * 1000));
+        }
         hashMap.put(key, valueEntry);
     }
 
@@ -32,6 +34,11 @@ public class MemoryStore {
         } else {
             return null;
         }
+    }
+
+    public ValueEntry showValue(String key){
+        ValueEntry value = hashMap.get(key);
+        return value;
     }
 
     public void delete(String key){
