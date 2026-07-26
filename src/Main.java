@@ -1,31 +1,21 @@
+import memorystore.ExpiredValueCleanerThread;
 import memorystore.MemoryStore;
 import parser.CommandParser;
+import server.RedisServerListenerThread;
 
-import java.util.Arrays;
-import java.util.Scanner;
+import java.io.IOException;
 
 public class Main {
-    public static void main(String[] args){
+    public static void main(String[] args) throws IOException {
 
         MemoryStore memoryStore = new MemoryStore();
         CommandParser commandParser = new CommandParser(memoryStore);
 
-        boolean state = true;
+        ExpiredValueCleanerThread valueCleanerThread = new ExpiredValueCleanerThread(memoryStore);
+        valueCleanerThread.start();
 
-        while(state) {
+        RedisServerListenerThread redisServerListenerThread = new RedisServerListenerThread(6379, commandParser);
+        redisServerListenerThread.start();
 
-            Scanner scanner = new Scanner(System.in);
-
-            System.out.print("Input: ");
-            String input = scanner.nextLine();
-
-            if(input.equalsIgnoreCase("exit")){
-                state = false;
-            }
-
-            System.out.println(commandParser.parseUserInput(input));
-            memoryStore.printMap();
-
-        }
     }
 }

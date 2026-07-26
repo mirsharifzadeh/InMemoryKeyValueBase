@@ -23,8 +23,6 @@ public class CommandParser {
         String[] tokens;
         tokens = input.split("\\s+");
 
-        System.out.println(Arrays.toString(tokens));
-
         if(tokens.length > 0){
             String tmpMethod = tokens[0].toUpperCase();
             for(Methods x : Methods.values()){

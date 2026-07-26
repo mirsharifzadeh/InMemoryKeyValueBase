@@ -2,6 +2,7 @@ package memorystore;
 
 import com.sun.jdi.Value;
 
+import java.util.Enumeration;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class MemoryStore {
@@ -39,6 +40,10 @@ public class MemoryStore {
     public ValueEntry showValue(String key){
         ValueEntry value = hashMap.get(key);
         return value;
+    }
+
+    public Enumeration<String> getKeys() {
+        return hashMap.keys();
     }
 
     public void delete(String key){
